@@ -56,10 +56,41 @@
 
     <footer class="border-t border-[#e3dccd] px-5 py-10 md:px-8">
       <div
-        class="mx-auto flex max-w-6xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        class="mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <span class="edito-display text-lg font-semibold text-[#1b1813]">
           {{ page.businessName }}
         </span>
+
+        <!-- Réseaux sociaux (masqués si le prospect n'en a aucun) -->
+        <ul
+          v-if="page.social.length"
+          class="flex flex-wrap items-center gap-2">
+          <li
+            v-for="link in page.social"
+            :key="link.network">
+            <a
+              :href="link.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              :title="link.label"
+              :aria-label="link.label"
+              class="edito-mono inline-flex items-center gap-1.5 rounded-full border border-[#e3dccd] px-3 py-1.5 text-[11px] tracking-[0.12em] text-[#1b1813] uppercase transition-colors hover:border-[#1b1813] hover:bg-[#fcfaf5]">
+              {{ link.label }}
+              <svg
+                class="h-2.5 w-2.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M7 17 17 7M8 7h9v9" />
+              </svg>
+            </a>
+          </li>
+        </ul>
+
         <span class="edito-mono text-xs tracking-[0.14em] text-[#6b6355] uppercase">
           <template v-if="page.city">{{ page.city }} · </template>© {{ year }}
         </span>

@@ -71,6 +71,15 @@ export interface EditoOpeningHours {
   hours: string
 }
 
+export interface EditoSocialLink {
+  /** Réseau normalisé (facebook, instagram, linkedin, tiktok, youtube, twitter). */
+  network: string
+  /** Libellé lisible du réseau. */
+  label: string
+  /** URL complète du profil. */
+  url: string
+}
+
 export interface EditoHeroBlock {
   badge: string
   /** Nom de l'entreprise (titre principal, en Fraunces). */
@@ -150,6 +159,7 @@ export interface ArtisanEditoPageContent {
   reviews: EditoReviewsBlock
   faq: EditoFaqBlock
   contact: EditoContactBlock
+  social: EditoSocialLink[]
 }
 
 /**
@@ -391,6 +401,37 @@ function normalizeHeroPoints(points: SiteContent['heroPoints']): string[] {
  * @param content - Données variables du prospect (toutes clés optionnelles).
  * @returns Le contenu typé prêt pour le rendu par les sections.
  */
+/** Réseaux connus → libellés lisibles (accessibilité + title au survol). */
+const SOCIAL_LABELS: Record<string, string> = {
+  facebook: 'Facebook',
+  instagram: 'Instagram',
+  linkedin: 'LinkedIn',
+  tiktok: 'TikTok',
+  youtube: 'YouTube',
+  twitter: 'X (Twitter)',
+}
+
+/**
+ * Normalise les liens réseaux sociaux (une URL non vide est requise).
+ * @param social - Liens bruts du prospect (optionnels).
+ * @returns Les liens normalisés avec un libellé lisible.
+ */
+function normalizeSocial(social: SiteContent['social']): EditoSocialLink[] {
+  if (!Array.isArray(social)) {
+    return []
+  }
+  return social
+    .filter((link): boolean => typeof link.url === 'string' && link.url.trim().length > 0)
+    .map((link): EditoSocialLink => {
+      const network: string = (link.network ?? '').trim().toLowerCase()
+      return {
+        network,
+        label: SOCIAL_LABELS[network] ?? (network ? network : 'Lien'),
+        url: (link.url ?? '').trim(),
+      }
+    })
+}
+
 export function buildArtisanEditoContent(content: SiteContent): ArtisanEditoPageContent {
   const palette = content.palette ?? {}
 
@@ -479,6 +520,7 @@ export function buildArtisanEditoContent(content: SiteContent): ArtisanEditoPage
       ctaCallLabel,
       openingHours: normalizeOpeningHours(content.openingHours),
     },
+    social: normalizeSocial(content.social),
   }
 }
 

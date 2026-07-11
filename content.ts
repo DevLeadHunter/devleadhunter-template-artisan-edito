@@ -150,6 +150,11 @@ export const mockSiteContent: SiteContent = {
     { day: 'Dimanche', hours: 'Fermé' },
   ],
 
+  social: [
+    { network: 'facebook', url: 'https://facebook.com/vallee-auto' },
+    { network: 'instagram', url: 'https://instagram.com/vallee_auto' },
+  ],
+
   palette: {
     primary: '#1b1813',
     secondary: '#f6f3ec',
