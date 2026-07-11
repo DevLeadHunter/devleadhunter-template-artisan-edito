@@ -22,6 +22,15 @@
   --font-mono: 'Spline Sans Mono', ui-monospace, 'SFMono-Regular', monospace;
 }
 
+/* Défilement doux des ancres du header (Prestations, Avis, Contact…).
+   Scopé via :has(.edito) : n'affecte la page que lorsque CETTE template
+   est rendue, et jamais quand l'utilisateur préfère réduire les animations. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.edito) {
+    scroll-behavior: smooth;
+  }
+}
+
 /* ============================================================
    Racine papier — canvas éditorial noir & blanc + ambre.
    Tout est scopé sous `.edito` (la racine porte cette classe) pour

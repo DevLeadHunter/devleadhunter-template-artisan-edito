@@ -10,23 +10,24 @@
 
       <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <figure
-          v-for="(image, index) in gallery.items"
-          :key="index"
+          v-for="(entry, displayIndex) in visibleEntries"
+          :key="entry.index"
           class="edito-card edito-tilt edito-reveal relative p-2.5"
-          :style="editoRevealDelay((index % 3) * 80)">
+          :style="editoRevealDelay((displayIndex % 3) * 80)">
           <img
-            :src="image.url"
-            :alt="altOf(image, index)"
+            :src="entry.image.url"
+            :alt="altOf(entry.image, displayIndex)"
             class="aspect-[4/3] w-full rounded-xl object-cover"
-            loading="lazy" />
+            loading="lazy"
+            @error="onImageError(entry.index)" />
           <figcaption class="mt-3 flex items-center justify-between gap-3 px-1 pb-1">
             <span class="edito-mono text-xs tracking-[0.14em] text-[#6b6355] uppercase">
-              Planche {{ formatIndex(index) }}
+              Planche {{ formatIndex(displayIndex) }}
             </span>
             <span
-              v-if="image.alt"
+              v-if="entry.image.alt"
               class="truncate text-sm text-[#6b6355]">
-              {{ image.alt }}
+              {{ entry.image.alt }}
             </span>
           </figcaption>
         </figure>
@@ -36,16 +37,44 @@
 </template>
 
 <script lang="ts" setup>
+import type { ComputedRef, Ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { EditoGalleryBlock, EditoGalleryImage } from '~/types/artisan-edito'
 import { editoRevealDelay } from '~/types/artisan-edito'
 
-defineProps<{
+/** Une image de galerie associée à son index d'origine (clé stable). */
+interface GalleryEntry {
+  image: EditoGalleryImage
+  index: number
+}
+
+const props = defineProps<{
   gallery: EditoGalleryBlock
 }>()
 
+/** Index (d'origine) des images scrapées qui n'ont pas pu être chargées. */
+const failedImageIndexes: Ref<Set<number>> = ref<Set<number>>(new Set<number>())
+
+/** Tuiles réellement affichables — les images mortes disparaissent proprement. */
+const visibleEntries: ComputedRef<GalleryEntry[]> = computed((): GalleryEntry[] =>
+  props.gallery.items
+    .map((image: EditoGalleryImage, index: number): GalleryEntry => ({ image, index }))
+    .filter((entry: GalleryEntry): boolean => !failedImageIndexes.value.has(entry.index)),
+)
+
+/**
+ * Masque une tuile dont l'image ne charge pas (URL scrapée morte).
+ * @param index - Index d'origine de l'image dans la galerie.
+ */
+function onImageError(index: number): void {
+  const next: Set<number> = new Set<number>(failedImageIndexes.value)
+  next.add(index)
+  failedImageIndexes.value = next
+}
+
 /**
  * Formate l'index d'une planche en numéro à deux chiffres (01, 02, …).
- * @param index - Index de l'image dans la galerie (base 0).
+ * @param index - Index affiché de l'image (base 0).
  * @returns Le numéro affiché.
  */
 function formatIndex(index: number): string {
@@ -55,7 +84,7 @@ function formatIndex(index: number): string {
 /**
  * Retourne le texte alternatif d'une image, avec un repli numéroté quand il manque.
  * @param image - Image de la galerie.
- * @param index - Index de l'image (base 0).
+ * @param index - Index affiché de l'image (base 0).
  * @returns Le texte alternatif à utiliser.
  */
 function altOf(image: EditoGalleryImage, index: number): string {

@@ -35,7 +35,8 @@
             :src="about.image"
             :alt="about.heading"
             class="aspect-[4/5] w-full rounded-xl object-cover"
-            loading="lazy" />
+            loading="lazy"
+            @error="onImageError" />
         </figure>
       </div>
     </div>
@@ -43,8 +44,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { ComputedRef } from 'vue'
-import { computed } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { EditoAboutBlock } from '~/types/artisan-edito'
 import { editoRevealDelay } from '~/types/artisan-edito'
 
@@ -52,8 +53,13 @@ const props = defineProps<{
   about: EditoAboutBlock
 }>()
 
-/** Vrai quand une photo d'à-propos est fournie (pilote la mise en page en deux colonnes). */
-const hasImage: ComputedRef<boolean> = computed((): boolean => props.about.image.length > 0)
+/** Vrai quand la photo d'à-propos n'a pas pu être chargée (URL scrapée morte). */
+const imageFailed: Ref<boolean> = ref<boolean>(false)
+
+/** Photo fournie ET chargeable — pilote la mise en page en deux colonnes. */
+const hasImage: ComputedRef<boolean> = computed(
+  (): boolean => props.about.image.length > 0 && !imageFailed.value,
+)
 
 /** Texte d'à-propos découpé en paragraphes (sur les sauts de ligne, entrées vides retirées). */
 const paragraphs: ComputedRef<string[]> = computed((): string[] =>
@@ -62,4 +68,9 @@ const paragraphs: ComputedRef<string[]> = computed((): string[] =>
     .map((paragraph: string): string => paragraph.trim())
     .filter((paragraph: string): boolean => paragraph.length > 0),
 )
+
+/** Repasse en une colonne quand la photo ne charge pas. */
+function onImageError(): void {
+  imageFailed.value = true
+}
 </script>

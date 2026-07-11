@@ -20,12 +20,31 @@
         </a>
       </nav>
 
-      <div :class="['flex items-center gap-4', navItems.length ? 'md:ml-8' : 'ml-auto']">
+      <div :class="['flex items-center gap-3 sm:gap-4', navItems.length ? 'md:ml-8' : 'ml-auto']">
         <a
           v-if="phone"
           :href="`tel:${phoneHref}`"
           class="edito-mono hidden text-sm font-medium tracking-[0.04em] text-[#1b1813] tabular-nums sm:inline">
           {{ phone }}
+        </a>
+        <!-- Appel direct sur mobile : l'action n°1 d'un site artisan, en un tap. -->
+        <a
+          v-if="phone"
+          :href="`tel:${phoneHref}`"
+          aria-label="Appeler"
+          class="flex h-10 w-10 items-center justify-center rounded-full border border-[#e3dccd] text-[#1b1813] transition-colors hover:border-[#1b1813] hover:bg-[#fcfaf5] sm:hidden">
+          <svg
+            class="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true">
+            <path
+              d="M3 5a2 2 0 0 1 2-2h2.4a1 1 0 0 1 1 .8l.9 4a1 1 0 0 1-.5 1.1L7.5 10a11 11 0 0 0 5.5 5.5l1.1-1.3a1 1 0 0 1 1.1-.5l4 .9a1 1 0 0 1 .8 1V18a2 2 0 0 1-2 2A15 15 0 0 1 3 5Z" />
+          </svg>
         </a>
         <a
           href="#contact"

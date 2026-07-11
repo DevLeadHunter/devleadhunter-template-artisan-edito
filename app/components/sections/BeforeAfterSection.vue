@@ -10,22 +10,24 @@
 
       <div class="mt-12 grid gap-10 lg:grid-cols-2">
         <figure
-          v-for="(pair, index) in beforeAfter.pairs"
+          v-for="({ pair, index }, displayIndex) in visiblePairs"
           :key="index"
           class="edito-reveal"
-          :style="editoRevealDelay((index % 2) * 90)">
+          :style="editoRevealDelay((displayIndex % 2) * 90)">
           <div class="edito-card relative overflow-hidden rounded-2xl">
             <img
               :src="pair.before"
               :alt="`Avant — ${labelOf(pair, index)}`"
               class="block aspect-[3/2] w-full object-cover"
-              loading="lazy" />
+              loading="lazy"
+              @error="onImageError(index)" />
             <img
               :src="pair.after"
               :alt="`Après — ${labelOf(pair, index)}`"
               class="absolute inset-0 h-full w-full object-cover"
               :style="{ clipPath: `inset(0 0 0 ${positionOf(index)}%)` }"
-              loading="lazy" />
+              loading="lazy"
+              @error="onImageError(index)" />
             <span
               class="edito-mono absolute top-3 left-3 rounded-full bg-[#1b1813]/85 px-3 py-1 text-[0.65rem] tracking-[0.12em] text-[#fcfaf5] uppercase">
               Avant
@@ -61,17 +63,33 @@
 </template>
 
 <script lang="ts" setup>
-import type { Ref } from 'vue'
-import { ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { EditoBeforeAfterBlock, EditoBeforeAfterPair } from '~/types/artisan-edito'
 import { editoRevealDelay } from '~/types/artisan-edito'
 
-defineProps<{
+/** Une paire avant/après associée à son index d'origine (clé stable). */
+interface BeforeAfterEntry {
+  pair: EditoBeforeAfterPair
+  index: number
+}
+
+const props = defineProps<{
   beforeAfter: EditoBeforeAfterBlock
 }>()
 
 /** Position du volet de révélation (en %) par paire ; 50 % par défaut. */
 const positions: Ref<Record<number, number>> = ref<Record<number, number>>({})
+
+/** Index (d'origine) des paires dont une photo scrapée n'a pas pu être chargée. */
+const failedPairIndexes: Ref<Set<number>> = ref<Set<number>>(new Set<number>())
+
+/** Paires réellement affichables — un comparateur cassé disparaît proprement. */
+const visiblePairs: ComputedRef<BeforeAfterEntry[]> = computed((): BeforeAfterEntry[] =>
+  props.beforeAfter.pairs
+    .map((pair: EditoBeforeAfterPair, index: number): BeforeAfterEntry => ({ pair, index }))
+    .filter((entry: BeforeAfterEntry): boolean => !failedPairIndexes.value.has(entry.index)),
+)
 
 /**
  * Position courante du curseur pour une paire donnée.
@@ -100,5 +118,15 @@ function onSlide(index: number, event: Event): void {
  */
 function labelOf(pair: EditoBeforeAfterPair, index: number): string {
   return pair.label.length > 0 ? pair.label : `réalisation ${index + 1}`
+}
+
+/**
+ * Masque une paire dont une des deux photos ne charge pas (URL scrapée morte).
+ * @param index - Index d'origine de la paire.
+ */
+function onImageError(index: number): void {
+  const next: Set<number> = new Set<number>(failedPairIndexes.value)
+  next.add(index)
+  failedPairIndexes.value = next
 }
 </script>

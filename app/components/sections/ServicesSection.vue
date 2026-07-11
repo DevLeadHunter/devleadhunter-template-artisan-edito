@@ -22,10 +22,10 @@
         <article
           v-for="(service, index) in services.items"
           :key="index"
-          class="edito-reveal grid gap-3 border-t border-[#e3dccd] py-8 md:grid-cols-[auto_1fr] md:gap-12"
+          class="edito-reveal grid grid-cols-[auto_1fr] gap-5 border-t border-[#e3dccd] py-8 md:gap-12"
           :style="editoRevealDelay(index * 60)">
           <span
-            class="edito-display text-3xl leading-none font-semibold text-[var(--edito-accent)] md:text-4xl">
+            class="edito-display pt-0.5 text-2xl leading-none font-semibold text-[var(--edito-accent)] md:pt-1 md:text-4xl">
             {{ formatIndex(index) }}
           </span>
           <div>

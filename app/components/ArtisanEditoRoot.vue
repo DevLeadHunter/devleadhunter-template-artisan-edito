@@ -157,6 +157,13 @@ const rootRef: Ref<HTMLElement | null> = ref<HTMLElement | null>(null)
 /** Observateur de reveal au scroll (nettoyé au démontage). */
 let revealObserver: IntersectionObserver | null = null
 
+/**
+ * Filet de sécurité : si l'IntersectionObserver n'a rien révélé après ce délai
+ * (webviews in-app au pipeline de rendu gelé, navigateurs exotiques), tout le
+ * contenu est affiché d'un bloc — un prospect ne doit JAMAIS voir une page blanche.
+ */
+let revealFallbackTimer: number | null = null
+
 onMounted((): void => {
   const root: HTMLElement | null = rootRef.value
   if (!root) {
@@ -171,8 +178,14 @@ onMounted((): void => {
     '(prefers-reduced-motion: reduce)',
   ).matches
 
-  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+  /** Révèle tout le contenu immédiatement (chemin sans animation). */
+  function revealEverything(): void {
     targets.forEach((target: HTMLElement): void => target.classList.add('is-visible'))
+    revealObserver?.disconnect()
+  }
+
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    revealEverything()
     return
   }
 
@@ -188,9 +201,21 @@ onMounted((): void => {
     { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
   )
   targets.forEach((target: HTMLElement): void => revealObserver?.observe(target))
+
+  // Si l'observer fonctionne, le hero est révélé en quelques ms et ce timer ne fait
+  // rien ; sinon (rendu gelé) il désarme les animations plutôt que cacher la page.
+  revealFallbackTimer = window.setTimeout((): void => {
+    if (!root.querySelector('.edito-reveal.is-visible')) {
+      revealEverything()
+    }
+  }, 1400)
 })
 
 onBeforeUnmount((): void => {
+  if (revealFallbackTimer !== null) {
+    window.clearTimeout(revealFallbackTimer)
+    revealFallbackTimer = null
+  }
   revealObserver?.disconnect()
   revealObserver = null
 })

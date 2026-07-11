@@ -94,7 +94,7 @@
           class="edito-reveal"
           :style="revealDelay(260)">
           <figure
-            v-if="hero.image"
+            v-if="showHeroImage"
             class="edito-card edito-tilt relative p-2.5">
             <span
               class="edito-corner edito-corner--tl"
@@ -106,7 +106,8 @@
               :src="hero.image"
               :alt="heroImageAlt"
               class="aspect-[4/5] w-full rounded-xl object-cover"
-              loading="eager" />
+              loading="eager"
+              @error="onHeroImageError" />
           </figure>
 
           <aside
@@ -161,16 +162,24 @@
 </template>
 
 <script lang="ts" setup>
-import type { CSSProperties, ComputedRef } from 'vue'
-import { computed } from 'vue'
+import type { CSSProperties, ComputedRef, Ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { EditoHeroBlock } from '~/types/artisan-edito'
 
 const props = defineProps<{
   hero: EditoHeroBlock
 }>()
 
+/** Vrai quand la photo du prospect n'a pas pu être chargée (URL scrapée morte). */
+const heroImageFailed: Ref<boolean> = ref<boolean>(false)
+
 /** Téléphone nettoyé pour l'attribut `tel:` (espaces retirés). */
 const phoneHref: ComputedRef<string> = computed((): string => props.hero.phone.replace(/\s+/g, ''))
+
+/** Affiche la photo si elle existe ET se charge — sinon repli sur la fiche « En bref ». */
+const showHeroImage: ComputedRef<boolean> = computed(
+  (): boolean => props.hero.image.length > 0 && !heroImageFailed.value,
+)
 
 /** Texte alternatif de la photo du hero, contextualisé avec la ville quand elle existe. */
 const heroImageAlt: ComputedRef<string> = computed((): string =>
@@ -186,5 +195,10 @@ const heroImageAlt: ComputedRef<string> = computed((): string =>
  */
 function revealDelay(delayMs: number): CSSProperties {
   return { '--edito-reveal-delay': `${delayMs}ms` } as CSSProperties
+}
+
+/** Bascule sur la fiche « En bref » quand la photo du hero ne charge pas. */
+function onHeroImageError(): void {
+  heroImageFailed.value = true
 }
 </script>
