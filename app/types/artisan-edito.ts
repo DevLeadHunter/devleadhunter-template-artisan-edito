@@ -246,6 +246,38 @@ export const editoDefaults = {
 
   contactHeading: 'Parlons de votre projet',
   contactLede: 'Un besoin, une question, un imprévu ? Réponse rapide et devis gratuit.',
+
+  images: {
+    hero: 'https://images.unsplash.com/photo-1660796334912-8ce8e9c2cff0?auto=format&fit=crop&w=1600&q=80',
+    about:
+      'https://images.unsplash.com/photo-1659930087003-2d64e33181f7?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      {
+        url: 'https://images.unsplash.com/photo-1547609434-b732edfee020?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Le geste du métier',
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1679797850019-3d0d8659a695?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Travail de précision',
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?auto=format&fit=crop&w=1200&q=80',
+        alt: 'L’établi et les outils',
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1499744349893-0c6de53516e6?auto=format&fit=crop&w=1200&q=80',
+        alt: 'L’atelier',
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1453806839674-d1a9087ca1ed?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Outillage de l’artisan',
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80',
+        alt: 'Chantier en cours',
+      },
+    ] as EditoGalleryImage[],
+  },
 } as const
 
 /**
@@ -290,12 +322,15 @@ function normalizeServices(services: SiteContent['services']): EditoService[] {
  * @returns Les images normalisées, ou un tableau vide.
  */
 function normalizeGallery(gallery: SiteContent['gallery']): EditoGalleryImage[] {
+  const fallback = (): EditoGalleryImage[] =>
+    editoDefaults.images.gallery.map((item): EditoGalleryImage => ({ ...item }))
   if (!Array.isArray(gallery)) {
-    return []
+    return fallback()
   }
-  return gallery
+  const images: EditoGalleryImage[] = gallery
     .filter((image): boolean => typeof image.url === 'string' && image.url.length > 0)
     .map((image): EditoGalleryImage => ({ url: image.url ?? '', alt: image.alt ?? '' }))
+  return images.length > 0 ? images : fallback()
 }
 
 /**
@@ -479,7 +514,7 @@ export function buildArtisanEditoContent(content: SiteContent): ArtisanEditoPage
       ctaQuoteLabel: resolveEditorialText(content.ctaQuoteLabel, editoDefaults.ctaQuoteLabel),
       phone,
       city,
-      image: content.heroImage ?? '',
+      image: content.heroImage || editoDefaults.images.hero,
     },
     trust: {
       items: trustFromContent.length > 0 ? trustFromContent : editoDefaults.trustItems,
@@ -492,7 +527,7 @@ export function buildArtisanEditoContent(content: SiteContent): ArtisanEditoPage
     about: {
       heading: resolveEditorialText(content.aboutHeading, editoDefaults.aboutHeading),
       text: content.about ?? '',
-      image: content.aboutImage ?? '',
+      image: content.aboutImage || editoDefaults.images.about,
     },
     gallery: {
       heading: resolveEditorialText(content.galleryHeading, editoDefaults.galleryHeading),

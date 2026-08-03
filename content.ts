@@ -4,94 +4,98 @@ import type { SiteContent } from './app/types/SiteContent'
  * Mock SiteContent used by the `.playground` to preview the template in isolation.
  * Not shipped to production — edit it freely while designing your template.
  *
- * Exemple volontairement NON-plombier (un garagiste) couvrant TOUTES les clés du contrat
+ * Exemple volontairement NON-plombier (un menuisier-agenceur) couvrant les clés du contrat
  * `SiteContent`, afin de prouver le rendu de chaque section de la template multi-métier.
  */
 export const mockSiteContent: SiteContent = {
-  businessName: 'Garage Vallée Auto',
+  businessName: 'Atelier Vallée Bois',
   phone: '04 79 00 42 18',
-  email: 'contact@vallee-auto.fr',
+  email: 'contact@atelier-vallee-bois.fr',
   city: 'Chambéry',
   area: 'Savoie',
   subtitle:
-    'Entretien, réparation et diagnostic toutes marques — un atelier familial où l’on vous explique ce qu’on fait, et pourquoi.',
+    'Menuiserie, agencement et pose sur mesure à Chambéry — un atelier où le bois est travaillé avec patience et livré fini, prêt à durer.',
 
-  heroBadge: 'Mécanicien de confiance',
-  heroPoints: ['Diagnostic offert', 'Devis sous 24h', 'Toutes marques'],
-  ctaCallLabel: 'Appeler le garage',
+  heroBadge: 'Menuisier-agenceur',
+  heroPoints: ['Devis gratuit', 'Sur mesure', 'Pose comprise'],
+  ctaCallLabel: 'Appeler l’atelier',
   ctaQuoteLabel: 'Demander un devis',
 
   trustItems: [
-    { value: '25 ans', label: 'D’expérience' },
-    { value: 'Toutes marques', label: 'Essence & diesel' },
-    { value: 'Devis 24h', label: 'Réponse rapide' },
-    { value: 'Agréé', label: 'Toutes assurances' },
+    { value: '20 ans', label: 'De métier' },
+    { value: 'Sur mesure', label: 'Fabriqué à l’atelier' },
+    { value: 'Devis 0 €', label: 'Sans engagement' },
+    { value: 'Local', label: 'Artisan de Savoie' },
   ],
 
-  servicesHeading: 'Nos services auto',
+  servicesHeading: 'Nos savoir-faire',
   services: [
     {
-      title: 'Entretien & révision',
+      title: 'Menuiserie sur mesure',
       description:
-        'Vidange, filtres, courroies, freins : la révision complète pour rouler l’esprit tranquille, carnet à l’appui.',
+        'Placards, dressings, bibliothèques et meubles pensés pour votre intérieur et fabriqués à l’atelier.',
     },
     {
-      title: 'Freinage & pneumatiques',
+      title: 'Agencement intérieur',
       description:
-        'Plaquettes, disques, montage et équilibrage de pneus toutes dimensions, avec contrôle de la géométrie.',
+        'Cuisines, plans de travail, verrières et rangements : un agencement au millimètre, posé proprement.',
     },
     {
-      title: 'Diagnostic électronique',
+      title: 'Portes & fenêtres bois',
       description:
-        'Voyant allumé ? Lecture de la valise multimarque pour identifier la panne avant de toucher au moindre boulon.',
+        'Fabrication et pose de portes, fenêtres et volets bois, du contemporain à la rénovation à l’ancienne.',
     },
     {
-      title: 'Distribution & embrayage',
+      title: 'Escaliers & parquet',
       description:
-        'Remplacement de la courroie ou de la chaîne de distribution et de l’embrayage, dans les règles du constructeur.',
+        'Escaliers bois, pose et rénovation de parquet massif, ponçage et finition huilée ou vitrifiée.',
     },
     {
-      title: 'Climatisation',
+      title: 'Terrasses & bardage',
       description:
-        'Recharge, désinfection et recherche de fuite pour un air sain et une clim efficace toute l’année.',
+        'Terrasses, pergolas et bardages bois pour prolonger la maison vers l’extérieur, durablement.',
     },
     {
-      title: 'Pré-contrôle technique',
+      title: 'Rénovation & restauration',
       description:
-        'On vérifie les points sensibles avant le passage au contrôle et on corrige ce qui doit l’être.',
+        'Remise en état de meubles, portes anciennes et boiseries — on répare plutôt que de jeter.',
     },
   ],
 
-  aboutHeading: 'Le garage',
+  aboutHeading: 'L’atelier',
   about:
-    'Garage Vallée Auto, c’est d’abord une histoire de famille : trois générations de mécaniciens installés à Chambéry, qui réparent les voitures du quartier depuis plus de vingt-cinq ans.\nIci, pas de jargon ni de facture qui gonfle en douce. On vous montre les pièces usées, on explique la panne, et on ne remplace que ce qui doit l’être.\nToutes marques, essence comme diesel, du petit entretien au gros chantier mécanique — avec la même exigence de travail bien fait.',
-  aboutImage: 'https://picsum.photos/seed/vallee-auto-atelier/900/1100',
+    'Atelier Vallée Bois, c’est un menuisier-agenceur installé à Chambéry qui travaille le bois massif comme les panneaux techniques, à l’ancienne et avec les machines d’aujourd’hui.\nChaque projet commence par une visite et un croquis : on prend les mesures, on choisit ensemble l’essence et les finitions, puis on fabrique à l’atelier avant de poser chez vous.\nDu petit meuble à l’agencement complet, la même exigence : des assemblages soignés, des finitions douces au toucher et un chantier laissé propre.',
+  aboutImage:
+    'https://images.unsplash.com/photo-1659930087003-2d64e33181f7?auto=format&fit=crop&w=1200&q=80',
 
-  heroImage: 'https://picsum.photos/seed/vallee-auto-hero/1000/1250',
+  heroImage:
+    'https://images.unsplash.com/photo-1660796334912-8ce8e9c2cff0?auto=format&fit=crop&w=1600&q=80',
 
-  galleryHeading: 'L’atelier & nos chantiers',
+  galleryHeading: 'L’atelier & nos réalisations',
   gallery: [
     {
-      url: 'https://picsum.photos/seed/vallee-auto-g1/800/600',
-      alt: 'Pont élévateur de l’atelier',
-    },
-    { url: 'https://picsum.photos/seed/vallee-auto-g2/800/600', alt: 'Montage de pneus neufs' },
-    { url: 'https://picsum.photos/seed/vallee-auto-g3/800/600', alt: 'Diagnostic à la valise' },
-    { url: 'https://picsum.photos/seed/vallee-auto-g4/800/600', alt: 'Réfection moteur' },
-    { url: 'https://picsum.photos/seed/vallee-auto-g5/800/600', alt: 'Banc de géométrie' },
-    { url: 'https://picsum.photos/seed/vallee-auto-g6/800/600', alt: 'Espace accueil client' },
-  ],
-
-  beforeAfter: [
-    {
-      before: 'https://picsum.photos/seed/vallee-auto-ba1-before/900/600',
-      after: 'https://picsum.photos/seed/vallee-auto-ba1-after/900/600',
-      label: 'Aile avant — débosselage & peinture',
+      url: 'https://images.unsplash.com/photo-1547609434-b732edfee020?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Sciage à l’établi',
     },
     {
-      before: 'https://picsum.photos/seed/vallee-auto-ba2-before/900/600',
-      after: 'https://picsum.photos/seed/vallee-auto-ba2-after/900/600',
-      label: 'Optiques de phares — rénovation',
+      url: 'https://images.unsplash.com/photo-1679797850019-3d0d8659a695?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Ajustage d’une pièce de bois',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Le mur d’outils de l’atelier',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1499744349893-0c6de53516e6?auto=format&fit=crop&w=1200&q=80',
+      alt: 'L’atelier et son établi',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1453806839674-d1a9087ca1ed?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Outillage traditionnel',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Pose sur chantier',
     },
   ],
 
@@ -100,59 +104,59 @@ export const mockSiteContent: SiteContent = {
     {
       author: 'Nadia B.',
       rating: 5,
-      text: 'Diagnostic clair, devis respecté au centime près et voiture prête le jour même. On se sent en confiance.',
+      text: 'Un dressing sur mesure impeccable, posé au millimètre. Conseils précieux sur les finitions, je recommande vivement.',
     },
     {
       author: 'Christophe M.',
       rating: 5,
-      text: 'Ils m’ont montré la pièce usée et évité un changement inutile que le concessionnaire voulait me facturer. Honnêtes.',
+      text: 'Ils ont restauré une porte ancienne que tout le monde voulait remplacer. Travail d’orfèvre et prix honnête.',
     },
     {
       author: 'Sylvie R.',
       rating: 4,
-      text: 'Accueil sympathique et travail soigné sur la distribution. Un léger retard mais prévenue à l’avance.',
+      text: 'Belle bibliothèque en chêne, livrée dans les délais. Un léger ajustement à la pose, réglé aussitôt.',
     },
     {
       author: 'Karim D.',
       rating: 5,
-      text: 'Mon garage depuis dix ans. Toujours de bon conseil, tarifs corrects et aucune mauvaise surprise.',
+      text: 'Cuisine agencée du sol au plafond, aucun espace perdu. Un artisan qui écoute et qui tient parole.',
     },
   ],
 
   faqHeading: 'Vos questions',
   faq: [
     {
-      question: 'Faut-il prendre rendez-vous ?',
+      question: 'Travaillez-vous uniquement sur mesure ?',
       answer:
-        'Pour l’entretien et les gros travaux, oui — cela nous permet de vous garantir un créneau. Pour un simple voyant ou un doute, passez, on regarde avec vous.',
+        'Oui, chaque réalisation est dessinée et fabriquée pour votre espace. C’est ce qui garantit un rendu net et un rangement optimisé.',
     },
     {
-      question: 'Réparez-vous toutes les marques ?',
+      question: 'Quelles essences de bois proposez-vous ?',
       answer:
-        'Oui, toutes marques françaises et étrangères, essence comme diesel. Nos outils de diagnostic sont multimarques.',
+        'Chêne, hêtre, frêne, pin ou panneaux plaqués selon l’usage et le budget. On vous conseille l’essence adaptée à chaque pièce.',
     },
     {
-      question: 'Un véhicule de prêt est-il disponible ?',
+      question: 'Assurez-vous aussi la pose ?',
       answer:
-        'Nous disposons de quelques véhicules de courtoisie, à réserver à l’avance selon la durée de l’immobilisation.',
+        'Oui, la fabrication comme la pose sont réalisées par l’atelier. Vous avez un seul interlocuteur, du devis à la finition.',
     },
     {
-      question: 'Puis-je apporter mes propres pièces ?',
+      question: 'Le devis est-il gratuit ?',
       answer:
-        'C’est possible sur demande, mais la garantie ne couvre alors que la main-d’œuvre. On vous conseille au cas par cas.',
+        'Oui, la visite, les mesures et le devis sont gratuits et sans engagement de votre part.',
     },
   ],
 
-  contactHeading: 'Prendre rendez-vous',
+  contactHeading: 'Parlons de votre projet',
   openingHours: [
     { day: 'Lundi – Vendredi', hours: '8h00 – 12h00 · 14h00 – 18h30' },
-    { day: 'Samedi', hours: '8h30 – 12h00' },
+    { day: 'Samedi', hours: '9h00 – 12h00 sur rendez-vous' },
     { day: 'Dimanche', hours: 'Fermé' },
   ],
 
   social: [
-    { network: 'facebook', url: 'https://facebook.com/vallee-auto' },
-    { network: 'instagram', url: 'https://instagram.com/vallee_auto' },
+    { network: 'facebook', url: 'https://facebook.com/atelier-vallee-bois' },
+    { network: 'instagram', url: 'https://instagram.com/atelier_vallee_bois' },
   ],
 
   palette: {
