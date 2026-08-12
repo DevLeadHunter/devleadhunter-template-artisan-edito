@@ -16,40 +16,49 @@
     <main>
       <HeroSection
         v-if="hasHero"
+        v-bind="editableAttrs(props.content._editable?.hero)"
         :hero="page.hero" />
 
       <TrustStrip
         v-if="hasTrust"
+        v-bind="editableAttrs(props.content._editable?.trust)"
         :trust="page.trust" />
 
       <ServicesSection
+        v-bind="editableAttrs(props.content._editable?.services)"
         id="services"
         :services="page.services" />
 
       <AboutSection
         v-if="hasAbout"
+        v-bind="editableAttrs(props.content._editable?.about)"
         :about="page.about" />
 
       <GallerySection
         v-if="hasGallery"
+        v-bind="editableAttrs(props.content._editable?.gallery)"
         id="galerie"
         :gallery="page.gallery" />
 
       <BeforeAfterSection
         v-if="hasBeforeAfter"
+        v-bind="editableAttrs(props.content._editable?.beforeAfter)"
         id="avant-apres"
         :before-after="page.beforeAfter" />
 
       <ReviewsSection
         v-if="hasReviews"
+        v-bind="editableAttrs(props.content._editable?.reviews)"
         id="avis"
         :reviews="page.reviews" />
 
       <FaqSection
         v-if="hasFaq"
+        v-bind="editableAttrs(props.content._editable?.faq)"
         :faq="page.faq" />
 
       <ContactSection
+        v-bind="editableAttrs(props.content._editable?.contact)"
         id="contact"
         :contact="page.contact" />
     </main>
@@ -116,6 +125,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import type { ArtisanEditoPageContent, EditoNavItem } from '~/types/artisan-edito'
 import { buildArtisanEditoContent } from '~/types/artisan-edito'
 import type { SiteContent } from '~/types/SiteContent'
+import { editableAttrs } from '@devleadhunter/website-content'
 import SiteHeader from './sections/SiteHeader.vue'
 import HeroSection from './sections/HeroSection.vue'
 import TrustStrip from './sections/TrustStrip.vue'
