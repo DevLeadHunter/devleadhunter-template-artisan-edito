@@ -148,6 +148,7 @@ export interface EditoContactBlock {
 export interface ArtisanEditoPageContent {
   theme: EditoTheme
   businessName: string
+  logo: string
   phone: string
   city: string
   hero: EditoHeroBlock
@@ -471,6 +472,7 @@ export function buildArtisanEditoContent(content: SiteContent): ArtisanEditoPage
   const palette = content.palette ?? {}
 
   const businessName: string = content.businessName ?? ''
+  const logo: string = typeof content.logo === 'string' ? content.logo.trim() : ''
   const phone: string = content.phone ?? ''
   const email: string = content.email ?? ''
   const city: string = content.city ?? ''
@@ -501,6 +503,7 @@ export function buildArtisanEditoContent(content: SiteContent): ArtisanEditoPage
       accent,
     },
     businessName,
+    logo,
     phone,
     city,
     hero: {

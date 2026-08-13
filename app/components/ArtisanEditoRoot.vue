@@ -10,6 +10,7 @@
 
     <SiteHeader
       :business-name="page.businessName"
+      :logo="page.logo"
       :phone="page.phone"
       :nav-items="navItems" />
 

@@ -3,8 +3,13 @@
     <div class="mx-auto flex max-w-6xl items-center gap-5 px-5 py-4 md:px-8">
       <a
         href="#top"
-        class="edito-display text-lg leading-none font-semibold tracking-[-0.01em] text-[#1b1813]">
-        {{ businessName }}
+        class="edito-display flex items-center gap-2.5 text-lg leading-none font-semibold tracking-[-0.01em] text-[#1b1813]">
+        <img
+          v-if="logo"
+          :src="logo"
+          alt=""
+          class="h-8 w-auto max-w-[7rem] shrink-0 object-contain" />
+        <span>{{ businessName }}</span>
       </a>
 
       <nav
@@ -63,6 +68,7 @@ import type { EditoNavItem } from '~/types/artisan-edito'
 
 const props = defineProps<{
   businessName: string
+  logo: string
   phone: string
   navItems: EditoNavItem[]
 }>()
