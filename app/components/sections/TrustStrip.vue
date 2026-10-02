@@ -20,6 +20,11 @@
           </dd>
         </div>
       </dl>
+      <p
+        v-if="trust.professionalLicense"
+        class="edito-mono py-3 text-right text-xs tracking-[0.12em] text-[#6b6355] uppercase">
+        {{ trust.professionalLicense }}
+      </p>
     </div>
   </section>
 </template>

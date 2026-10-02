@@ -14,6 +14,7 @@
  * (galerie, avant/après, avis, à-propos, photos, horaires).
  */
 import type { SiteContent } from '~/types/SiteContent'
+import { professionalLicenseLine } from '@devleadhunter/website-content'
 
 /** Palette client résolue. La DA reste noir & blanc : seul l'accent ambre est teintable. */
 export interface EditoTheme {
@@ -99,6 +100,7 @@ export interface EditoHeroBlock {
 
 export interface EditoTrustBlock {
   items: EditoTrustItem[]
+  professionalLicense: string
 }
 
 export interface EditoServicesBlock {
@@ -151,6 +153,7 @@ export interface ArtisanEditoPageContent {
   logo: string
   phone: string
   city: string
+  professionalLicense: string
   hero: EditoHeroBlock
   trust: EditoTrustBlock
   services: EditoServicesBlock
@@ -183,7 +186,7 @@ export const editoDefaults = {
 
   trustItems: [
     { value: '7j/7', label: 'Disponibilité' },
-    { value: 'Devis 0 €', label: 'Sans engagement' },
+    { value: 'Devis gratuit', label: 'Sans engagement' },
     { value: 'Local', label: 'Près de chez vous' },
     { value: 'Garantie', label: 'Travail assuré' },
   ] as EditoTrustItem[],
@@ -477,6 +480,7 @@ export function buildArtisanEditoContent(content: SiteContent): ArtisanEditoPage
   const email: string = content.email ?? ''
   const city: string = content.city ?? ''
   const area: string = content.area ?? ''
+  const professionalLicense: string = professionalLicenseLine(content)
 
   const accent: string =
     typeof palette.accent === 'string' && palette.accent.trim().length > 0
@@ -506,6 +510,7 @@ export function buildArtisanEditoContent(content: SiteContent): ArtisanEditoPage
     logo,
     phone,
     city,
+    professionalLicense,
     hero: {
       badge: resolveEditorialText(content.heroBadge, editoDefaults.heroBadge),
       businessName,
@@ -521,6 +526,7 @@ export function buildArtisanEditoContent(content: SiteContent): ArtisanEditoPage
     },
     trust: {
       items: trustFromContent.length > 0 ? trustFromContent : editoDefaults.trustItems,
+      professionalLicense,
     },
     services: {
       heading: resolveEditorialText(content.servicesHeading, editoDefaults.servicesHeading),

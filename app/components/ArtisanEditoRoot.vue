@@ -12,6 +12,7 @@
       :business-name="page.businessName"
       :logo="page.logo"
       :phone="page.phone"
+      :cta-quote-label="page.hero.ctaQuoteLabel"
       :nav-items="navItems" />
 
     <main>
@@ -102,6 +103,7 @@
         </ul>
 
         <span class="edito-mono text-xs tracking-[0.14em] text-[#6b6355] uppercase">
+          <template v-if="page.professionalLicense">{{ page.professionalLicense }} · </template>
           <template v-if="page.city">{{ page.city }} · </template>© {{ year }}
         </span>
       </div>
