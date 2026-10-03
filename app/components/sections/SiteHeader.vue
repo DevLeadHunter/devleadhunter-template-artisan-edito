@@ -54,7 +54,7 @@
         <a
           href="#contact"
           class="edito-btn-primary !px-5 !py-2.5 text-sm">
-          {{ ctaQuoteLabel }}
+          Devis
         </a>
       </div>
     </div>
@@ -70,7 +70,6 @@ const props = defineProps<{
   businessName: string
   logo: string
   phone: string
-  ctaQuoteLabel: string
   navItems: EditoNavItem[]
 }>()
 

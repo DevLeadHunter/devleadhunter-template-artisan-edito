@@ -12,7 +12,6 @@
       :business-name="page.businessName"
       :logo="page.logo"
       :phone="page.phone"
-      :cta-quote-label="page.hero.ctaQuoteLabel"
       :nav-items="navItems" />
 
     <main>
